@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>whitelist-portal</title>
+
+    <link rel="stylesheet" href="https://components.konst.fish/main.css">
+    <link rel="stylesheet" href="static/main.css">
+
+    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+    <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+</head>
+<body>
+    <div class="panel panel-adjust">
+        <h1>whitelist-portal</h1>
+    </div>
+
+    <form class="panel panel-adjust" hx-post="/contact">
+        <div class="address">
+            <label>Address</label>
+            <input name="email" id="address">
+            <script>
+                fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => document.getElementById('address').value = data.ip);
+            </script>
+        </div>
+
+        <div class="expiry">
+            <label>Expiry (Days)</label>
+            <input type="number" name="expiry" value="30" list="expiryList">
+            <datalist id="expiryList">
+                <option value="1">
+                <option value="30">
+                <option value="90">
+                <option value="356">
+            </datalist> 
+        </div>
+
+        <button class="btn primary">Submit</button>
+    </form>
+    <div class="panel panel-adjust" id="error-msg"></div>
+
+    <div class="panel panel-adjust" hx-get="/asdf" hx-swap="innerHTML settle:1s" hx-trigger="load">
+        <span class="spinner"></span> Loading...
+    </div>
+</body>
+</html>

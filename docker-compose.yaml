@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  portal:
+    build: ./portal
+    environment:
+      - REDIS_ADDR=redis:6379
+    ports:
+      - "8080:8080"
+    image: ghcr.io/konstfish/whitelist-portal:latest
