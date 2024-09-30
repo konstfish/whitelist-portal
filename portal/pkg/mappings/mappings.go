@@ -30,8 +30,10 @@ func CreateUrlMappings() {
 	})
 
 	// api
-	v1 := Router.Group("/api/v1")
+	v1 := Router.Group("/hx/v1")
 	{
-		v1.GET("/listEntry", controllers.ValidateAuthHeader, controllers.GetAddress)
+		v1.GET("/list", controllers.ValidateAuthHeader, controllers.GetAddressList)
+		v1.POST("/add", controllers.ValidateAuthHeader, controllers.AddAddress, controllers.GetAddressList)
+		v1.POST("/delete/:address", controllers.ValidateAuthHeader, controllers.DeleteAddress, controllers.GetAddressList)
 	}
 }

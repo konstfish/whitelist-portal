@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"github.com/konstfish/whitelist-portal/portal/pkg/cache"
@@ -21,6 +22,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to setup cache client: %v", err)
 	}
+
+	cache.AddAddress(context.Background(), "david@konst.fish", cache.AddressListEntry{
+		Address:     "1.1.1.1",
+		Description: "test",
+		TTL:         1,
+	})
+
+	cache.AddAddress(context.Background(), "david@konst.fish", cache.AddressListEntry{
+		Address:     "1.1.1.2",
+		Description: "test",
+		TTL:         5,
+	})
 
 	log.Println("setting up gin router")
 

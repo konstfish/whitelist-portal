@@ -1,1 +1,114 @@
 body {}
+
+.htmx-settling button {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.form-container {
+    width: 350px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.form-opt{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.form-opt input {
+    margin-top: 2px;
+    margin-left: 0px;
+}
+
+label {
+    font-size: 0.6em;
+}
+
+button {
+    margin: 12px;
+    margin-right: 6.5px;
+}
+
+.btn-submit{
+    border-color: var(--nord14);
+}
+
+.btn-delete{
+    border-color: var(--nord11);
+    height: 22px;
+    width: 22px;
+    font-size: 0.6em;
+    line-height: 0px;
+}
+
+/* table */
+table {
+    border-collapse: collapse;
+}
+
+thead {
+    border-bottom: 1px solid var(--nord6);
+}
+
+th, td {
+    padding: 4px 10px 4px 10px;
+}
+
+td > button {
+    margin: 0px;
+}
+
+td {
+    text-align: center;
+}
+
+#info-warning {
+    border: 1px solid var(--nord13);
+    border-radius: var(--border-rad-main);
+    background-color: var(--bg-thr);
+    padding: 6px;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width:100%;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: fit-content;
+    justify-content: center;
+}
+
+.panel-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panle-table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

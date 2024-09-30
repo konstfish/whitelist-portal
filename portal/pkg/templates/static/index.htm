@@ -9,41 +9,56 @@
     <link rel="stylesheet" href="static/main.css">
 
     <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.2/response-targets.js"></script>
+
     <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
 </head>
 <body>
-    <div class="panel panel-adjust">
-        <h1>whitelist-portal</h1>
-    </div>
-
-    <form class="panel panel-adjust" hx-post="/contact">
-        <div class="address">
-            <label>Address</label>
-            <input name="email" id="address">
-            <script>
-                fetch('https://api.ipify.org?format=json')
-                    .then(response => response.json())
-                    .then(data => document.getElementById('address').value = data.ip);
-            </script>
+    <div class="main">
+        <div class="panel panel-adjust panel-header">
+            <h1>whitelist-portal</h1>
         </div>
 
-        <div class="expiry">
-            <label>Expiry (Days)</label>
-            <input type="number" name="expiry" value="30" list="expiryList">
-            <datalist id="expiryList">
-                <option value="1">
-                <option value="30">
-                <option value="90">
-                <option value="356">
-            </datalist> 
+        <form class="panel panel-adjust panel-form" hx-post="/hx/v1/add" hx-target="#table-container" hx-target-error="#table-container">
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-opt address">
+                        <label>Address</label>
+                        <input name="address" id="address" maxlength="15">
+                        <script>
+                            fetch('https://api.ipify.org?format=json')
+                                .then(response => response.json())
+                                .then(data => document.getElementById('address').value = data.ip);
+                        </script>
+                    </div>
+            
+                    <div class="form-opt description">
+                        <label>Description</label>
+                        <input name="description" id="description" maxlength="20">
+                    </div>    
+                </div>
+        
+                <div class="form-row">
+                    <div class="form-opt expiry">
+                        <label>Expiry (Days)</label>
+                        <input type="number" name="expiry" min="1" value="90" list="expiryList">
+                        <datalist id="expiryList">
+                            <option value="1">
+                            <option value="30">
+                            <option value="90">
+                            <option value="356">
+                        </datalist> 
+                    </div>
+                    <button class="btn-submit">Add</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="panel panel-adjust panle-table" id="table-container" hx-get="/hx/v1/list" hx-trigger="load">
+            <span><span class="spinner"></span> Loading...</span>
+            <div id="info-warning">Invalid IP address</div>
+            <table class="sortable"><thead><tr><th>Address</th><th>Description</th><th data-sort-default="asc">Expiry</th><th>Actions</th></tr></thead> <tbody><tr><td>92.62.26.112</td><td>asdsdfsdfdsfsfdf</td><td>29d</td><td><button class="btn btn-delete" hx-post="/hx/v1/delete/92.62.26.112" hx-target="#table-container">x</button></td></tr><tr><td>92.62.26.113</td><td>asdf</td><td>29d</td><td><button class="btn btn-delete" hx-post="/hx/v1/delete/92.62.26.113" hx-target="#table-container">x</button></td></tr></tbody><tfoot></tfoot></table>
         </div>
-
-        <button class="btn primary">Submit</button>
-    </form>
-    <div class="panel panel-adjust" id="error-msg"></div>
-
-    <div class="panel panel-adjust" hx-get="/asdf" hx-swap="innerHTML settle:1s" hx-trigger="load">
-        <span class="spinner"></span> Loading...
     </div>
 </body>
 </html>
