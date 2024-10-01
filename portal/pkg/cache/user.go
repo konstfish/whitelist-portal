@@ -59,7 +59,7 @@ func GetAddressList(ctx context.Context, user string) ([]AddressListEntry, error
 	}
 
 	sort.Slice(result, func(i, j int) bool {
-		return result[i].TTL < result[j].TTL
+		return result[i].Address < result[j].Address
 	})
 
 	return result, nil
@@ -67,4 +67,8 @@ func GetAddressList(ctx context.Context, user string) ([]AddressListEntry, error
 
 func DeleteAddress(ctx context.Context, user string, address string) error {
 	return rdb.HDel(ctx, userKey(user), address).Err()
+}
+
+func GetAddressCount(ctx context.Context, user string) (int64, error) {
+	return rdb.HLen(ctx, userKey(user)).Result()
 }

@@ -4,8 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var AuthHeader string
-
 func ValidateAuthHeader(c *gin.Context) {
 	header := c.GetHeader(AuthHeader)
 

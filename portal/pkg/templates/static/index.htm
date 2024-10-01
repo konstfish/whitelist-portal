@@ -10,8 +10,6 @@
 
     <script src="https://unpkg.com/htmx.org@2.0.2"></script>
     <script src="https://unpkg.com/htmx-ext-response-targets@2.0.2/response-targets.js"></script>
-
-    <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
 </head>
 <body>
     <div class="main">
@@ -26,19 +24,11 @@
                         <label>Address</label>
                         <input name="address" id="address" maxlength="15">
                         <script>
-                            fetch('https://api.ipify.org?format=json')
-                                .then(response => response.json())
+                            fetch('https://api.ipify.org')
                                 .then(data => document.getElementById('address').value = data.ip);
                         </script>
                     </div>
             
-                    <div class="form-opt description">
-                        <label>Description</label>
-                        <input name="description" id="description" maxlength="20">
-                    </div>    
-                </div>
-        
-                <div class="form-row">
                     <div class="form-opt expiry">
                         <label>Expiry (Days)</label>
                         <input type="number" name="expiry" min="1" value="90" list="expiryList">
@@ -49,6 +39,13 @@
                             <option value="356">
                         </datalist> 
                     </div>
+                </div>
+        
+                <div class="form-row">
+                    <div class="form-opt description">
+                        <label>Description</label>
+                        <input name="description" id="description" maxlength="20">
+                    </div>
                     <button class="btn-submit">Add</button>
                 </div>
             </div>
@@ -56,9 +53,8 @@
 
         <div class="panel panel-adjust panle-table" id="table-container" hx-get="/hx/v1/list" hx-trigger="load">
             <span><span class="spinner"></span> Loading...</span>
-            <div id="info-warning">Invalid IP address</div>
-            <table class="sortable"><thead><tr><th>Address</th><th>Description</th><th data-sort-default="asc">Expiry</th><th>Actions</th></tr></thead> <tbody><tr><td>92.62.26.112</td><td>asdsdfsdfdsfsfdf</td><td>29d</td><td><button class="btn btn-delete" hx-post="/hx/v1/delete/92.62.26.112" hx-target="#table-container">x</button></td></tr><tr><td>92.62.26.113</td><td>asdf</td><td>29d</td><td><button class="btn btn-delete" hx-post="/hx/v1/delete/92.62.26.113" hx-target="#table-container">x</button></td></tr></tbody><tfoot></tfoot></table>
         </div>
+
     </div>
 </body>
 </html>

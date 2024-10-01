@@ -1,5 +1,14 @@
 body {}
 
+input {
+    background-color: var(--bg-main);
+    height: 18px;
+}
+
+button {
+    background-color: var(--bg-main);
+}
+
 .htmx-settling button {
     pointer-events: none;
     cursor: not-allowed;
@@ -34,19 +43,10 @@ label {
 
 button {
     margin: 12px;
+    margin-top: 13.5px;
+    padding: var(--padding);
+    height: 31.5px;
     margin-right: 6.5px;
-}
-
-.btn-submit{
-    border-color: var(--nord14);
-}
-
-.btn-delete{
-    border-color: var(--nord11);
-    height: 22px;
-    width: 22px;
-    font-size: 0.6em;
-    line-height: 0px;
 }
 
 /* table */
@@ -111,4 +111,53 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 6px;
+}
+
+.panel-address{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - var(--padding)*2);
+}
+
+.address-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.address-info p {
+    align-self: flex-start;
+    font-size: 0.8em;
+}
+
+.address-info h3 {
+    margin: 0px;
+}
+
+.panel-address p{
+    opacity: 0.7;
+    margin: 0px;
+}
+
+.address-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+    height: 22px;
+}
+
+.address-button p{
+    padding: 1.5px;
+}
+
+.btn-delete{
+    border-color: var(--nord11);
+    height: 22px;
+    width: 22px;
+    font-size: 0.6em;
+    line-height: 0px;
+    margin: 0px;
 }

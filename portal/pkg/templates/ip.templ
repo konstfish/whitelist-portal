@@ -11,35 +11,22 @@ func ttlToReadable(ttl int64) string {
 }
 
 templ AddressTable(items []cache.AddressListEntry) {
-  <table class="sortable">
-    <thead>
-        <tr>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Expiry</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-      for _, item := range items {
-        @ListEntry(item)
-      }
-    </tbody>
-  </table>
-  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+  for _, item := range items {
+    @ListEntry(item)
+  }
 }
 
 templ ListEntry(item cache.AddressListEntry) {
-  <tr>
-    <td>{ item.Address }</td>
-    <td>{ item.Description }</td>
-    <td>{ ttlToReadable(item.TTL) }</td>
-    <td>
-      <button class='btn-delete' 
-              hx-post={"/hx/v1/delete/" + item.Address} 
-              hx-target="#table-container">x</button>
-      </td>
-  </tr>
+  <div class="panel-adjust panel-address">
+    <div class="address-info">
+        <h3>{ item.Address }</h3>
+        <p>{ item.Description }</p>
+    </div>
+    <div class="address-button">
+        <p>{ ttlToReadable(item.TTL) }</p>
+        <button class="btn btn-delete" hx-post={"/hx/v1/delete/" + item.Address} hx-target="#table-container">x</button>
+    </div>
+</div>
 }
 
 templ ErrorMessage(message string) {

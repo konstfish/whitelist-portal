@@ -1,0 +1,4 @@
+services:
+  portal:
+    build: ./portal
+    image: ghcr.io/konstfish/whitelist-portal:latest

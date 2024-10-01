@@ -31,6 +31,17 @@ func AddAddress(c *gin.Context) {
 		return
 	}
 
+	// check limit
+	if limit, err := cache.GetAddressCount(c.Request.Context(), user); err != nil {
+		c.AbortWithStatus(500)
+		return
+	} else if int(limit) >= UserAddressLimit {
+		component := templates.ErrorMessage("Max address limit reached")
+		component.Render(c.Request.Context(), c.Writer)
+		return
+	}
+
+	// validate form input
 	if valid, reason := validateAddress(address); !valid {
 		component := templates.ErrorMessage(reason)
 		component.Render(c.Request.Context(), c.Writer)
