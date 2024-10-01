@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ['portal']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q ${{ matrix.component }}; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up QEMU
+        if: ${{ steps.check-changes.outputs.changed == 'true' }}
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        if: ${{ steps.check-changes.outputs.changed == 'true' }}
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GHCR
+        if: ${{ steps.check-changes.outputs.changed == 'true' }}
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ${{ matrix.component }}
+        if: ${{ steps.check-changes.outputs.changed == 'true' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ./${{ matrix.component }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/konstfish/whitelist-${{ matrix.component }}:${{ github.sha }}
