@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        component: ['portal']
+        component: ['portal', 'netset']
 
     steps:
       - name: Checkout

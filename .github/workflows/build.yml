@@ -6,11 +6,11 @@ on:
       - '*'
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        component: ['portal']
+        component: ['portal', 'netset']
 
     steps:
       - name: Checkout
@@ -53,3 +53,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/konstfish/whitelist-${{ matrix.component }}:${{ github.sha }}
+            ghcr.io/konstfish/whitelist-${{ matrix.component }}:main

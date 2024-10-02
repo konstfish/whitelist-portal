@@ -25,7 +25,8 @@
                         <input name="address" id="address" maxlength="15">
                         <script>
                             fetch('https://api.ipify.org')
-                                .then(data => document.getElementById('address').value = data.ip);
+                                .then(response => response.text())
+                                .then(data => document.getElementById('address').value = data);
                         </script>
                     </div>
             
