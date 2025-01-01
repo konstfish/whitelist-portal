@@ -15,13 +15,6 @@ func userFromContext(c *gin.Context) string {
 	return user.(string)
 }
 
-func GetAddress(c *gin.Context) {
-	// user := userFromContext(c)
-
-	component := templates.ListEntry(cache.AddressListEntry{})
-	component.Render(c.Request.Context(), c.Writer)
-}
-
 func AddAddress(c *gin.Context) {
 	user := userFromContext(c)
 
@@ -36,15 +29,15 @@ func AddAddress(c *gin.Context) {
 		c.AbortWithStatus(500)
 		return
 	} else if int(limit) >= UserAddressLimit {
-		component := templates.ErrorMessage("Max address limit reached")
-		component.Render(c.Request.Context(), c.Writer)
+		out, _ := templates.ErrorMessage("Max address limit reached").Render()
+		c.Writer.Write([]byte(out))
 		return
 	}
 
 	// validate form input
 	if valid, reason := validateAddress(address); !valid {
-		component := templates.ErrorMessage(reason)
-		component.Render(c.Request.Context(), c.Writer)
+		out, _ := templates.ErrorMessage(reason).Render()
+		c.Writer.Write([]byte(out))
 		return
 	}
 
@@ -77,6 +70,14 @@ func GetAddressList(c *gin.Context) {
 		return
 	}
 
-	component := templates.AddressTable(addresses)
-	component.Render(c.Request.Context(), c.Writer)
+	for _, item := range addresses {
+		out, _ := templates.AddressTableEntry(item).Render()
+
+		c.Writer.Write([]byte(out))
+	}
+
+	if len(addresses) == 0 {
+		out, _ := templates.ErrorMessage("No addresses yet!").Render()
+		c.Writer.Write([]byte(out))
+	}
 }

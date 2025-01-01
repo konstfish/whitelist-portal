@@ -17,7 +17,9 @@ func CreateUrlMappings() {
 
 	// static files (https://github.com/gin-gonic/gin/issues/2654)
 	Router.StaticFileFS("static/main.css", "static/main.css", http.FS(templates.StaticFiles))
-	Router.StaticFileFS("/", "static/index.htm", http.FS(templates.StaticFiles))
+	Router.StaticFileFS("static/ip.js", "static/ip.js", http.FS(templates.StaticFiles))
+
+	Router.GET("/", controllers.ValidateAuthHeader, controllers.GetIndex)
 
 	/*Router.StaticFS("/static", http.FS(templates.GetStaticFiles()))
 	Router.GET("", func(c *gin.Context) {
@@ -32,8 +34,8 @@ func CreateUrlMappings() {
 	// api
 	v1 := Router.Group("/hx/v1")
 	{
-		v1.GET("/list", controllers.ValidateAuthHeader, controllers.GetAddressList)
-		v1.POST("/add", controllers.ValidateAuthHeader, controllers.AddAddress, controllers.GetAddressList)
-		v1.POST("/delete/:address", controllers.ValidateAuthHeader, controllers.DeleteAddress, controllers.GetAddressList)
+		v1.GET("/addresses", controllers.ValidateAuthHeader, controllers.GetAddressList)
+		v1.POST("/addresses", controllers.ValidateAuthHeader, controllers.AddAddress, controllers.GetAddressList)
+		v1.DELETE("/addresses/:address", controllers.ValidateAuthHeader, controllers.DeleteAddress, controllers.GetAddressList)
 	}
 }
